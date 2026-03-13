@@ -1,4 +1,4 @@
-.PHONY: install compile setup clean help
+.PHONY: install compile setup clean test help
 
 # Default target
 all: setup compile
@@ -24,11 +24,18 @@ clean:
 	@echo "Uninstalling github/gh-aw extension..."
 	gh extension remove github/gh-aw || true
 
+# Run Python unit tests with pytest
+test:
+	@echo "Running unit tests..."
+	pip install -r requirements-dev.txt -q
+	pytest tests/ -v
+
 # Show help
 help:
 	@echo "Available targets:"
 	@echo "  install  - Install the github/gh-aw extension"
 	@echo "  compile  - Run gh aw compile"
 	@echo "  setup    - Install extension and compile (default)"
+	@echo "  test     - Run Python unit tests with pytest"
 	@echo "  clean    - Uninstall the extension"
 	@echo "  help     - Show this help message"
