@@ -29,7 +29,7 @@ import yaml
 
 from conftest import (
     DOCS_DIR,
-    HAS_ON_KEY,
+    has_on_key,
     TOP_LEVEL_WORKFLOW_FILES,
     WORKFLOWS_DIR,
     WorkflowFile,
@@ -90,7 +90,7 @@ class TestRequiredFields:
         Note: PyYAML (YAML 1.1) converts the bare keyword ``on`` to boolean
         ``True``, so both forms are accepted.
         """
-        assert HAS_ON_KEY(top_level_workflow_file.frontmatter), (
+        assert has_on_key(top_level_workflow_file.frontmatter), (
             f"{top_level_workflow_file.rel_path}: required trigger field 'on' "
             "is missing from the frontmatter."
         )
@@ -200,7 +200,7 @@ class TestMarkdownBody:
         """The body (after the frontmatter) must contain at least one ATX heading."""
         body = top_level_workflow_file.body
         assert _HEADING_RE.search(body), (
-            f"{top_level_workflow_file.rel_path}: no Markdown heading (## ...) "
+            f"{top_level_workflow_file.rel_path}: no Markdown heading (# through ######) "
             "found in the workflow body. Each workflow file should have a title "
             "or section heading."
         )

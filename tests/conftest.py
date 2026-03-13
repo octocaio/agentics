@@ -15,11 +15,16 @@ REPO_ROOT = Path(__file__).parent.parent
 WORKFLOWS_DIR = REPO_ROOT / "workflows"
 DOCS_DIR = REPO_ROOT / "docs"
 
-# YAML 1.1 (used by PyYAML) treats the bare keyword ``on`` as boolean True.
-# Workflow files use ``on:`` as a trigger key, so after parsing the key appears
-# as the Python bool True.  HAS_ON_KEY(fm) returns True when either the
-# canonical YAML-1.1-boolean form (True) or the string form ("on") is present.
-HAS_ON_KEY = lambda fm: True in fm or "on" in fm  # noqa: E731
+# YAML 1.1 (PyYAML default) treats the bare keyword ``on`` as boolean True.
+# All checks for the ``on`` trigger field use ``has_on_key`` which tests for
+# both ``True`` and ``"on"`` as dict keys.
+def has_on_key(fm: dict) -> bool:
+    """Return True when *fm* contains an ``on`` trigger field.
+
+    PyYAML (YAML 1.1) converts the bare keyword ``on`` to the Python bool
+    ``True``, so both ``True`` and the string ``"on"`` are checked.
+    """
+    return True in fm or "on" in fm
 
 
 class WorkflowFile(NamedTuple):
